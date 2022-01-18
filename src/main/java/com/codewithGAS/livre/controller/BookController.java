@@ -1,5 +1,6 @@
 package com.codewithGAS.livre.controller;
 
+import com.codewithGAS.livre.VO.ResponseTemplateVO;
 import com.codewithGAS.livre.entity.Book;
 import com.codewithGAS.livre.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,18 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public Book getBook(@PathVariable("id") Long bookId) {
-        return bookService.findBookById(bookId);
+    public ResponseTemplateVO getBookWithStudent(@PathVariable("id") Long bookId){
+        return bookService.getBookWithStudent(bookId);
     }
 
     @GetMapping("/all")
     public List<Book> getAllBook() {
         return bookService.getAllBook();
+    }
+
+    @GetMapping("/allAvailable")
+    public List<Book> getAvailableBooks() {
+        return bookService.getAvailableBooks();
     }
 
     @DeleteMapping("/{id}")
@@ -35,5 +41,7 @@ public class BookController {
     public Book updateBook(@RequestBody Book book,@PathVariable("id") Long bookId) {
         return bookService.updateBook(bookId);
     }
+
+
 
 }

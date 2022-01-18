@@ -1,6 +1,8 @@
 package com.codewithGAS.livre.service;
 
 
+import com.codewithGAS.livre.VO.ResponseTemplateVO;
+import com.codewithGAS.livre.VO.Student;
 import com.codewithGAS.livre.entity.Book;
 import com.codewithGAS.livre.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,8 @@ public class BookService {
 
     @Autowired
     private BookRepository bookRepository;
-//   @Autowired
-//   private RestTemplate restTemplate;
+  @Autowired
+   private RestTemplate restTemplate;
 
 
     public Book saveBook(Book book){
@@ -40,20 +42,28 @@ public class BookService {
         Book bookToUpdate = bookRepository.getById(bookId);
         bookToUpdate.setBookName(bookToUpdate.getBookName());
         bookToUpdate.setBookAuthor(bookToUpdate.getBookAuthor());
-        bookToUpdate.setBookEmprunte(bookToUpdate.getBookEmprunte());
-        bookToUpdate.setBookImage(bookToUpdate.getBookImage());
+        bookToUpdate.setNbCopy(bookToUpdate.getNbCopy());
+        bookToUpdate.setDescription(bookToUpdate.getDescription());
         bookToUpdate.setStudentId(bookToUpdate.getStudentId());
         return bookRepository.save(bookToUpdate);
 
 
     }
-//    public ResponseTemplateVO getLivreWithEtudiant(Long id){
-//        ResponseTemplateVO vo =new ResponseTemplateVO();
-//        Book l=bookRepository.findByBookId(id);
-//        Etudiant e=restTemplate.getForObject("http://USER-SERVICE/etudiants/"+ l.getEtudiantId(), Etudiant.class);
-//       vo.setLivre(l);
-//       vo.setEtudiant(e);
-//       return  vo;
-//    }
+    public List<Book> getAvailableBooks( ) {
+
+        return bookRepository.findByNbCopyGreaterThan(0);
+
+    }
+
+    public ResponseTemplateVO getBookWithStudent(Long bookId) {
+        ResponseTemplateVO vo =new ResponseTemplateVO();
+        Book book=bookRepository.findByBookId(bookId);
+
+
+       Student s=restTemplate.getForObject("http://localhost:9091/students/"+book.getStudentId(), Student.class);
+       vo.setBook(book);
+       vo.setStudent(s);
+       return  vo;
+   }
 
 }

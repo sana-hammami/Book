@@ -21,9 +21,9 @@ public class Book {
     @Column
     @Getter @Setter private String bookAuthor;
     @Column
-    @Getter @Setter private int bookEmprunte;
+    @Getter @Setter private Integer nbCopy;
     @Column
-    @Getter @Setter private String bookImage;
+    @Getter @Setter private String description;
     @Column
     @Getter @Setter private Long studentId;
 }

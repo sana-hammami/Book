@@ -11,6 +11,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Book findByBookId(Long bookId);
     List<Book> findAll();
     void delete (Book b);
-
+    List<Book> findByNbCopyGreaterThan(Integer nbCopy);
 
 }
